@@ -20,6 +20,6 @@ Clone the repo
 
 Run the batch file in the command line
 ```bash
-.\SetupSite.bat
+.\SetupSiteRelocate.bat
 ```
 Open CMSFrontEnd/ and see the new files located in the subfolders
