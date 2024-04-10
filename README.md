@@ -13,4 +13,4 @@ Run the batch file in the command line
 ```bash
 .\SetupSite.bat
 ```
-Open Main/CMSFrontEnd/ and see the new files located in the subfolders
+Open CMSFrontEnd/ and see the new files located in the subfolders
