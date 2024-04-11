@@ -2,13 +2,16 @@ REM Author: Ryan Freas
 REM Date: 4/10/2024
 REM Description: A simple batch script to move files around per Suja's doc (LocalSolutionSetUp1.docx)
 REM Make sure SetupSite.bat calls this script (call .\SetupSiteRelocate.bat) and this bat is run as ADMIN
-
+@echo off
 REM Enable the use of for loops
 setlocal enabledelayedexpansion 
 
 REM Set current dir to base path then navigate to it
 SET mypath=%~dp0
 SET newPath=%mypath:~0,-1%
+SET lockedPath="C:\Windows\System32\inetsrv\config\applicationHost.config"
+SET "original=lockItem="true""
+SET "updated=lockItem="false""
 SET users[0]="IUSR"
 SET users[1]="NETWORK SERVICE"
 SET users[2]="IIS_IUSRS"
@@ -32,7 +35,11 @@ for /l %%n in (0,1,2) do (
    icacls "%newPath%" /grant:r !users[%%n]!:F
 )
 
+REM STEP 3: In inetsrv\config, set lockItem="true" to false
+for /f "usebackq delims=" %%x in (%lockedPath%) do (
+   echo %%x
+)
+
 :NOPATH
 ECHO Path (%mypath%) does not exist 
-
 REM exit
