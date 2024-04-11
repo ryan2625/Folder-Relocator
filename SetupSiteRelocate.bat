@@ -15,6 +15,8 @@ SET users[2]="IIS_IUSRS"
 ECHO %mypath%
 cd /d %mypath%
 
+IF NOT EXIST "%mypath%" GOTO NOPATH
+
 REM STEP 1: Move folders into appropriate directory
 copy "%mypath%\iAppsBase\Working\FrontEnd\CMSFrontEndSite\bin\*" "%mypath%\CMSFrontEnd\bin"
 copy "%mypath%\iAppsBase\Working\GACDLLs\DapperExtensions.dll" "%mypath%\CMSFrontEnd\bin"
@@ -28,5 +30,8 @@ for /l %%n in (0,1,2) do (
    icacls "c:\windows\temp" /grant:r !users[%%n]!:F
    icacls "%newPath%" /grant:r !users[%%n]!:F
 )
+
+:NOPATH
+ECHO Path (%mypath%) does not exist 
 
 REM exit
