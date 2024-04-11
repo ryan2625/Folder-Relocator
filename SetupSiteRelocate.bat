@@ -15,6 +15,7 @@ SET users[2]="IIS_IUSRS"
 ECHO %mypath%
 cd /d %mypath%
 
+REM Path will probably exist due to nature of %~dp0 but why not
 IF NOT EXIST "%mypath%" GOTO NOPATH
 
 REM STEP 1: Move folders into appropriate directory
