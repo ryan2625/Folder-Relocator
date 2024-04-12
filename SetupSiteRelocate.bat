@@ -10,8 +10,8 @@ REM Set current dir to base path then navigate to it
 SET mypath=%~dp0
 SET newPath=%mypath:~0,-1%
 SET lockedPath="C:\Windows\System32\inetsrv\config\applicationHost.config"
-SET original="lockitem=""true"""
-SET updated="lockitem=""false"""
+SET original=lockitem=""true"
+SET updated=lockitem=""false"
 SET users[0]="IUSR"
 SET users[1]="NETWORK SERVICE"
 SET users[2]="IIS_IUSRS"
@@ -34,19 +34,19 @@ for /l %%n in (0,1,2) do (
    icacls "c:\windows\temp" /grant:r !users[%%n]!:F
    icacls "%newPath%" /grant:r !users[%%n]!:F
 )
-REM REMEMBER TO CHANGE THIS ORDER
-FIND /N /I /C %original% %lockedPath%
-FIND /N /I %updated% %lockedPath%
 
-REM STEP 3: In inetsrv\config, set lockItem="true" to false TODO
- for /f "usebackq delims=" %%x in (%lockedPath%) do (
-   ECHO line=%%x
- ) 
+REM Display all lines with pattern
+FIND /N /I /C %original% %lockedPath%
+FIND /N /I /C %updated% %lockedPath%
+
+REM powershell "(gc \"%lockedPath%\") -replace '%original%','%updated%'"
+powershell "(gc \"%lockedPath%\") -replace '%updated%','%original%'"
 
 REM Display all corrected lines with new pattern
 FIND /N /I /C %original% %lockedPath%
-FIND /N /I %updated% %lockedPath%
+FIND /N /I /C %updated% %lockedPath%
 
 :NOPATH
 ECHO Path (%mypath%) does not exist 
+
 REM exit
