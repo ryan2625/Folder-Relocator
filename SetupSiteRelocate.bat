@@ -10,8 +10,11 @@ REM Set current dir to base path then navigate to it
 SET mypath=%~dp0
 SET newPath=%mypath:~0,-1%
 SET lockedPath="C:\Windows\System32\inetsrv\config\applicationHost.config"
+
 SET original=lockitem=""true"
+
 SET updated=lockitem=""false"
+
 SET users[0]="IUSR"
 SET users[1]="NETWORK SERVICE"
 SET users[2]="IIS_IUSRS"
@@ -35,16 +38,18 @@ for /l %%n in (0,1,2) do (
    icacls "%newPath%" /grant:r !users[%%n]!:F
 )
 
-REM Display all lines with pattern
-FIND /N /I /C %original% %lockedPath%
-FIND /N /I /C %updated% %lockedPath%
+REM Display all lines to be corrected
+FIND /C "lockitem=""true""" %lockedPath%
+FIND /N /I "lockitem=""false""" %lockedPath%
 
-REM powershell "(gc \"%lockedPath%\") -replace '%original%','%updated%'"
+REM Eventually we will SWAP updated and original. Used for testing purposes now.
 powershell "(gc \"%lockedPath%\") -replace '%updated%','%original%'"
 
-REM Display all corrected lines with new pattern
-FIND /N /I /C %original% %lockedPath%
-FIND /N /I /C %updated% %lockedPath%
+REM TODO: Take updated file and save to temp in powershell, then overwrite locked path with TEMP
+
+REM Count corrected lines, display any lines not updated
+FIND /C "lockitem=""false""" %lockedPath%
+FIND /N /I "lockitem=""true""" %lockedPath%
 
 :NOPATH
 ECHO Path (%mypath%) does not exist 
