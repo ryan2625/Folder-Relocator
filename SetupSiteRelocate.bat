@@ -1,7 +1,7 @@
 @echo off
 REM Author: Ryan Freas
 REM Date: 4/10/2024
-REM Description: A simple batch script to move files around per Suja's doc (LocalSolutionSetUp1.docx)
+REM Description: A simple batch script to move files around, grant permissions, and update files per Suja's doc (LocalSolutionSetUp1.docx)
 REM Make sure SetupSite.bat calls this script (call .\SetupSiteRelocate.bat) and this bat is run as ADMIN
 
 REM Enable the use of expanding variables for loops (!string! syntax)
