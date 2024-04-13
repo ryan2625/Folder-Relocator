@@ -44,6 +44,8 @@ for /l %%n in (0,1,2) do (
    icacls "%newPath%" /grant:r !users[%%n]!:F
 )
 
+IF NOT EXIST "%lockedPath%" GOTO NOCONFIGPATH
+
 REM Display all lines to be corrected
 FIND /N /I  "lockitem=""true""" %lockedPath%
 FIND /C "lockitem=""false""" %lockedPath%
@@ -55,12 +57,20 @@ powershell "(gc \"%lockedPath%\") -replace '%original%','%updated%'" > "%lockedP
 REM Replace original file with our updated version with the same name
 move /Y "%lockedPath%.tmp" "%lockedPath%"
 
-REM Display changes showing we updated the file to lockitem="false"
+REM Display changes showing we updated the file to lockitem="false". Will not print if file already updated
 FIND /N /I "lockitem=""false""" %lockedPath%
 FIND /C "lockitem=""true""" %lockedPath%
 
 REM Print Error and stop execution if path not valid
 :NOPATH
-ECHO Path (%mypath%) does not exist 
+IF NOT EXIST "%mypath%" (
+    ECHO ERR could not find path (%mypath%)
+)
+
+REM Print Error and stop execution if config path is not valid - could be related to not having IIS installed
+:NOCONFIGPATH
+IF NOT EXIST "%lockedPath%" (
+    ECHO ERR Do you have IIS installed^? Could not find path (%lockedPath%)
+)
 
 REM exit
