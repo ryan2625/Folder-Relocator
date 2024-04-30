@@ -17,9 +17,9 @@ SET lockedPath="C:\Windows\System32\inetsrv\config\applicationHost.config"
 
 REM Variable names for the string to replace. The syntax seems weird but
 REM double quotes are an escape char 
-SET original=lockitem=""true"
+SET original=lockItem=""true"
 
-SET updated=lockitem=""false"
+SET updated=lockItem=""false"
 
 REM Users we need to grant access to
 SET users[0]="IUSR"
@@ -49,8 +49,8 @@ for /l %%n in (0,1,2) do (
 IF NOT EXIST "%lockedPath%" GOTO NOCONFIGPATH
 
 REM Display all lines to be corrected
-FIND /N /I  "lockitem=""true""" %lockedPath%
-FIND /C "lockitem=""false""" %lockedPath%
+FIND /N /I  "lockItem=""true""" %lockedPath%
+FIND /C "lockItem=""false""" %lockedPath%
 
 REM STEP 3: Replace strings in applicationHost.config
 REM Get content of applicationHost.config, search for string and replace it with our updated version
@@ -59,9 +59,9 @@ powershell "(gc \"%lockedPath%\") -replace '%original%','%updated%'" > "%lockedP
 REM Replace original file with our updated version with the same name
 move /Y "%lockedPath%.tmp" "%lockedPath%"
 
-REM Display changes showing we updated the file to lockitem="false". Will not print if file already updated
-FIND /N /I "lockitem=""false""" %lockedPath%
-FIND /C "lockitem=""true""" %lockedPath%
+REM Display changes showing we updated the file to lockItem="false". Will not print if file already updated
+FIND /N /I "lockItem=""false""" %lockedPath%
+FIND /C "lockItem=""true""" %lockedPath%
 
 REM Print Error and stop execution if path not valid
 :NOPATH
