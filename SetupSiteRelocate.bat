@@ -29,6 +29,11 @@ SET users[2]="IIS_IUSRS"
 REM Path will probably exist due to nature of %~dp0 throw error if not
 IF NOT EXIST "%mypath%" GOTO NOPATH
 
+REM STEP 0: Make dir (bin folder) for CMSFrontEnd
+cd CMSFrontEnd
+mkdir bin
+cd /d %mypath%
+
 REM STEP 1: Copy folders into appropriate directory
 xcopy "%mypath%\iAppsBase\Working\FrontEnd\CMSFrontEndSite\bin\*" "%mypath%\CMSFrontEnd\bin" /s /e /y
 copy "%mypath%\iAppsBase\Working\GACDLLs\DapperExtensions.dll" "%mypath%\CMSFrontEnd\bin"
