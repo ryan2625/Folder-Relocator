@@ -47,7 +47,7 @@ REM Where we use %%n to get the value at the index in users arr and the :F flag 
 REM Setting /T flag will run command for all folders, subfolders, files etc. Remove if not needed.
 for /l %%n in (0,1,2) do ( 
    icacls "c:\Windows\Microsoft.NET\Framework\v4.0.30319\Temporary ASP.NET Files" /grant:r !users[%%n]!:"(OI)(CI)F" /T
-   icacls "c:\windows\temp" /grant:r !users[%%n]!:"(OI)(CI)F" /T
+   icacls "c:\Windows\Temp" /grant:r !users[%%n]!:"(OI)(CI)F" /T
    icacls "%newPath%" /grant:r !users[%%n]!:"(OI)(CI)F" /T
 )
 
